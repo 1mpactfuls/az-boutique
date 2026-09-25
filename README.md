@@ -1,5 +1,7 @@
 # AZ Boutique
 
+**Live site: https://1mpactfuls.github.io/az-boutique/**
+
 Bridal & couture womenswear by **Ayesha Zahid** — handmade in Pakistan, shipped worldwide by DHL Express. Built for brides in the US.
 
 - Full shop with cart, checkout and order confirmation
@@ -8,73 +10,28 @@ Bridal & couture womenswear by **Ayesha Zahid** — handmade in Pakistan, shippe
 
 ---
 
-## Publish on GitHub Pages (for showing others / buying a domain later)
+## How deployment works
 
-Everything needed for deployment is already in this repo:
-`.github/workflows/deploy.yml` (build + deploy), `.nojekyll`, and a stub
-`vly-toolbar-readonly.tsx` so the production build works outside the Freebuff
-preview environment.
+The site is served by **GitHub Pages from the `docs/` folder on `main`**
+(Settings → Pages → Deploy from a branch → main /docs).
 
-### 1. Create the GitHub repo and push
+To publish an update:
 
-Git commands are managed by Freebuff in this workspace, so run these from a
-local clone of the project (or any machine with the code):
+1. Build the site with the Pages base path (base is `/az-boutique/`):
+   ```bash
+   node build-dist.mjs
+   cp dist/index.html dist/404.html   # SPA fallback for deep links
+   ```
+2. Copy everything from `dist/` into `docs/` and commit + push — Pages
+   redeploys automatically in about a minute.
 
-```bash
-git init
-git add .
-git commit -m "AZ Boutique — bridal shop v1"
-git branch -M main
-git remote add origin https://github.com/<your-username>/<your-repo>.git
-git push -u origin main
-```
+The Convex URL is read from the environment (`VITE_CONVEX_URL`) at build time.
 
-> The first push will ask you to log in — use your GitHub username and a
-> [Personal Access Token](https://github.com/settings/tokens) (classic, with
-> the `repo` scope) as the password.
+### Custom domain (later)
 
-### 2. One-time repo settings (2 minutes)
-
-1. **Settings → Pages → Build and deployment → Source: "GitHub Actions"**
-   (not "Deploy from a branch")
-2. **Settings → Secrets and variables → Actions → Variables tab → New
-   repository variable**
-   - Name: `VITE_CONVEX_URL`
-   - Value: your Convex cloud URL (looks like `https://xxxx.convex.cloud` —
-     copy it from the Freebuff Keys/API keys UI or `.env.local`)
-
-### 3. Deploy
-
-The workflow runs on every push to `main`. To trigger it manually:
-**Actions → Deploy to GitHub Pages → Run workflow**.
-
-Your site will be live at:
-
-```
-https://<your-username>.github.io/<your-repo>/
-```
-
-Refresh a deep link like `/shop` — the `404.html` fallback keeps client-side
-routing working.
-
-### 4. Custom domain (later)
-
-Buy the domain anywhere (Namecheap, Cloudflare, Porkbun…), then:
-
-1. **Settings → Pages → Custom domain** → enter it and save. GitHub creates a
-   `CNAME` file in the deployment for you.
-2. At your registrar, add a `CNAME` record: `www` → `<your-username>.github.io`
-   (and an `A` record for the apex: `185.199.108.153`, `185.199.109.153`,
-   `185.199.110.153`, `185.199.111.153`).
-3. Tick **Enforce HTTPS** once the certificate is issued. GitHub Pages gives
-   you HTTPS for free on `*.github.io` and custom domains.
-
-No build changes are needed for the custom domain — the workflow auto-detects
-whether it is deploying to a project path or the root domain.
-
-### Updating after the first deploy
-
-Push any change to `main` and the site redeploys itself in about a minute.
+Buy the domain, then in **Settings → Pages → Custom domain** enter it and add
+a `CNAME` record at your registrar (`www` → `1mpactfuls.github.io`). HTTPS is
+free and automatic. No build changes needed.
 
 ---
 
@@ -371,9 +328,3 @@ When using convex, make sure:
 - This includes importing generated files like `@/convex/_generated/server`, `@/convex/_generated/api`
 - Remember to import functions like useQuery, useMutation, useAction, etc. from `convex/react`
 - NEVER have return type validators.
-
-## Live site
-
-After every change here, the site redeploys to:
-
-**https://1mpactfuls.github.io/az-boutique/**
