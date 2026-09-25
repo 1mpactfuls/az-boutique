@@ -1,0 +1,17 @@
+{
+  "name": "AZ Boutique — Bridal Couture by Ayesha Zahid",
+  "short_name": "AZ Boutique",
+  "description": "Bridal & couture womenswear, handmade in Pakistan, shipped worldwide.",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#faf9f6",
+  "theme_color": "#5c1f1f",
+  "icons": [
+    {
+      "src": "logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
