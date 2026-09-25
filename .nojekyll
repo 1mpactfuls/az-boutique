@@ -1,0 +1,2 @@
+# GitHub Pages serves everything as-is; without this, Jekyll processing
+# would slow builds and can choke on assets that start with underscores.
